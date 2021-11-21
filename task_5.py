@@ -18,7 +18,7 @@ def read_file(file: TextIO, substring: str, new_string: str) -> None:
 
     file_new = []
     for string in file:
-        if string.find(substring) != -1 or re.search(r'\d+ \w+\d+', string):
+        if string.find(substring) != -1 or re.search(r'\d+ [a-zA-Z]+\d+', string):
             file_new.append(new_string)
         else:
             file_new.append(string)

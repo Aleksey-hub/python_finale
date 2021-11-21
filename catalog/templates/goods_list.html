@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+    <table class="table">
+        <caption>
+            <th>Наименование</th>
+            <th>Цена</th>
+            <th>Единицы измерения</th>
+        </caption>
+        {% for product in products %}
+            <tr>
+                <td>
+                    {{ product.name }}
+                </td>
+                <td>
+                    {{ product.price }}
+                </td>
+                <td>
+                    {{ product.measure_unit }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <button class="btn btn-primary">Добавить товар</button>
+{% endblock %}

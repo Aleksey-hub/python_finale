@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+    <h3>{{ site }}</h3>
+    <ul class="list-group list-group-horizontal">
+        <li>
+            <a class="list-group-item list-group-item-action active" href="{% url 'catalog:index' %}">Все разделы</a>
+        </li>
+        {% for catalog_section in catalog_sections %}
+            <li>
+                <a class="list-group-item list-group-item-action"
+                   href="{% url 'catalog:section' catalog_section.pk %}">{{ catalog_section.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <table class="table">
+        <caption>
+            <th>Наименование</th>
+            <th>Цена</th>
+            <th>Единицы измерения</th>
+            <th>Разделы товара</th>
+        </caption>
+        {% for product in products %}
+            <tr>
+                <td>
+                    {{ product.name }}
+                </td>
+                <td>
+                    {{ product.price }}
+                </td>
+                <td>
+                    {{ product.measure_unit }}
+                </td>
+                <td>
+                    {% for catalog_section in product.catalog_sections.all %}
+                        {{ catalog_section.name }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <button class="btn btn-primary">Добавить товар</button>
+{% endblock %}

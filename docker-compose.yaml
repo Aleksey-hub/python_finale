@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:14.1
+    privileged: true
+    restart: always
+    ports:
+      - 54322:5432
+    environment:
+      POSTGRES_USER: aleksei
+      POSTGRES_PASSWORD: aleksei
+      POSTGRES_DB: test
+
+  backend:
+    build:
+      context: ./django_example
+    ports:
+      - 8080:8080
+    command: bash -c "
+      export DJANGO_SETTINGS_MODULE='django_example.settings.site_1_docker'
+      && export SECRET_KEY='django-insecure-4yz!p89hf-(#p(dam(+@5gfx4@2dclj54i%1%1j=)sb=9xj!nr'
+      && python manage.py migrate
+      && gunicorn django_example.wsgi -b 0.0.0.0:8080
+      "
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - 8000:8000
+    depends_on:
+      - backend
